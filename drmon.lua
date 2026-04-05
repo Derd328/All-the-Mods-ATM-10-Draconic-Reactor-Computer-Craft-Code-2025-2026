@@ -6,7 +6,7 @@ local relaySide = "bottom"
 
 local targetStrength = 30 -- lower = more efficient, but less safe
 local maxTemperature = 8000
-local targetTemperature = 7950
+local targetTemperature = 7995
 local safeTemperature = 3000
 local targetSatPercent = 10 -- 10 at minimum
 local lowestFieldPercent = 10 -- recommended 10 at minimum
@@ -30,6 +30,7 @@ local fuelPercent
 -- auto output gate tuning
 local outputKpSat   = 10000   -- smaller = smoother, less bounce
 local tempIntegral = 0
+local boost = 0
 --targetTemperature = targetTemperature + 1 --[[ Band-aid solution as the reactor tends to settle
     --around 1 degree less than targetTemperature due to internal delays]]
 
@@ -335,7 +336,7 @@ function update()
 
     -- are we on? regulate the input fludgate to our target field strength
     -- or set it to our saved setting since we are on manual
-    if ri.status == "running" or ri.status == "stopping" then
+    if ri.status == "running" then
       if autoInputGate == 1 then 
         curInputGate = ri.fieldDrainRate / (1 - (targetStrength / 100))
         print("Target Gate: " .. curInputGate)
@@ -349,42 +350,36 @@ function update()
   -- AUTO OUTPUT GATE LOGIC
   ----------------------------------------------------------------
   if autoOutputGate == 1 and ri.status == "running" then
-  
-    local desiredFlow
-    local rawError = targetTemperature - ri.temperature
-    local tempError = rawError
-    tempError = (tempError >= 0 and 1 or -1) * math.max(math.abs(tempError), 25) -- Min magnitude of tempError = 25
-    local currentFlow = fluxgate.getSignalLowFlow() or 0
-    local tempPercent = ri.temperature / targetTemperature
+      --math.exp(-math.abs(targetTemperature - ri.temperature)/targetTemperature)
     prevTemp = prevTemp or ri.temperature -- one time on startup, make prevTemp = ri.temperature
-    local dK = ri.temperature - prevTemp
-    local dt = 0.1
-    local Kp = math.exp(math.max(tempError/targetTemperature, 0))
-    local Ki = Kp
-    local Kd = 5 * tempPercent
-    if dK <= 0 then Kd = 1 end
-    local boost = 0
+    local desiredFlow
+    local tempError = targetTemperature - ri.temperature
+    local tempDeriv = ri.temperature - prevTemp
+    local prevDeriv = prevDeriv or tempDeriv
+     --maybe make boost its own integral; increasing by 0.1 when tempderiv < 0 and decreasing or resetting otherwise
+    if tempDeriv <= 0.01 and ri.temperature < targetTemperature - 0.01 then -- if rate of change is less than +0.01, and we're done oscillating, boost
+      boost = boost + 0.01
+    elseif ri.temperature > targetTemperature + 0.05 then
+      boost = boost - 0.005
+    else boost = boost - 0.001
+    end
+    if tempDeriv < 5 then
+      tempIntegral = tempIntegral + tempError + boost
+    end
+    local Kp = 4200 * math.max(math.exp(-math.abs(targetTemperature - ri.temperature)/targetTemperature), 0.1)^2 --2.7k
+    local Ki = 80
+    local Kd = 1000
 
     ----------------------------------------------------------------
     -- Keep temperature near targetTemperature while staying above targetSatPercent
     ----------------------------------------------------------------
-    if dK <= 0 and rawError > 5 then
-      boost = 1
-    end
-    
-    if math.abs(rawError) > 0.01 then
-      tempIntegral = tempIntegral + rawError * 0.1 - dK/0.1 * Kd + boost
-    end
-    local tempDeriv = dK/dt
-    tempIntegral = math.max(tempIntegral, 0)
-    tempIntegral = math.min(tempIntegral, 500)
-    tempIntegral = tempIntegral
-    local netChange = tempError * Kp + tempIntegral - tempDeriv -- * Kd
-    currentFlow = currentFlow + netChange
-    if satPercent > targetSatPercent or netChange < 0 then
+    if satPercent > targetSatPercent then
+      local currentFlow = tempError * Kp + tempIntegral * Ki - tempDeriv * Kd
       fluxgate.setSignalLowFlow(currentFlow)
     end
     prevTemp = ri.temperature
+    prevDeriv = tempDeriv
+  else tempIntegral = 0
   end
 
     ----------------------------------------------------------------
