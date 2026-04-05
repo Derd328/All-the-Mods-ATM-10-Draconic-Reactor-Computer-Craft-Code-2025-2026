@@ -2,8 +2,8 @@
 --
 --
 
-local libURL = "https://raw.githubusercontent.com/Derd164/All-the-Mods-ATM-10-Draconic-Reactor-Computer-Craft-Code-2025-2026/master/lib/f.lua"
-local startupURL = "https://raw.githubusercontent.com/Derd164/All-the-Mods-ATM-10-Draconic-Reactor-Computer-Craft-Code-2025-2026/master/drmon.lua"
+local libURL = "https://raw.githubusercontent.com/Derd328/All-the-Mods-ATM-10-Draconic-Reactor-Computer-Craft-Code-2025-2026/master/lib/f.lua"
+local startupURL = "https://raw.githubusercontent.com/Derd328/All-the-Mods-ATM-10-Draconic-Reactor-Computer-Craft-Code-2025-2026/master/drmon.lua"
 local lib, startup
 local libFile, startupFile
 
