@@ -29,7 +29,7 @@ you can find a very well made youtube tutorial on how to set this up [here](http
 * easily tweak your output flux gate via touchscreen buttons
   * +/-100k, 10k, and 1k increments
 * NEW: Automatic output flux gate mode 
-  * Uses a dynamic PID to automatically adjust the output gate
+  * Uses a PID to automatically adjust the output gate
 
 
 ### requirements
@@ -53,12 +53,12 @@ you can find a very well made youtube tutorial on how to set this up [here](http
 * install this code via running the install script using these commands :
 
 ```
-> wget https://raw.githubusercontent.com/Derd164/All-the-Mods-ATM-10-Draconic-Reactor-Computer-Craft-Code-2025-2026/master/install.lua install
+> wget https~//raw.githubusercontent.com/Derd328/All-the-Mods-ATM-10-Draconic-Reactor-Computer-Craft-Code-2025-2026/master/install.lua install
 > install
 ```
 * modify `startup` if you wish to configure/alter any variables mentioned in the feature list, you'll find them at the top of the file
 ```
-> startup
+> edit startup
 ```
 * you should see stats in your term, and on your monitor
 
