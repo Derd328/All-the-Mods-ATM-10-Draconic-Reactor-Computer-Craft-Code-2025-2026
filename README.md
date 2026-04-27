@@ -12,7 +12,7 @@ NB: This is for Minecraft 1.21.1. You will need to edit references within the co
 
 
 ### tutorial
-you can find a very well made youtube tutorial on how to set this up [here](https://www.youtube.com/watch?v=USo-2z7aXPw&t=1s)
+you can find a very well made youtube tutorial on how to set this up [here](https://youtu.be/m4ePCa6vE70)
 
 ### features
 * uses a 3x3 advanced computer touchscreen monitor to interact with your reactor
@@ -20,7 +20,7 @@ you can find a very well made youtube tutorial on how to set this up [here](http
   * adjustable
 * immediate shutdown and charge upon your field strength going below 5%
   * adjustable
-  * reactor will activate upon a successful charge [CURRENTLY BUGGED, requires manual activation]
+  * reactor will activate upon a successful charge
 * immediate shutdown when your temperature goes above 8000C
   * adjustable
   * reactor will activate upon temperature cooling down to 3000C [CURRENTLY BUGGED, requires manual reactivation]
