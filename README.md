@@ -1,5 +1,5 @@
 
-![](examples/2.jpg)
+![](examples/6.png)
 > *status*: currently stable, writing documentation
 
 
