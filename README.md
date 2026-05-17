@@ -12,7 +12,7 @@ NB: This is for Minecraft 1.21.1. You will need to edit references within the co
 
 
 ### tutorial
-you can find a very well made youtube tutorial on how to set this up [here](https://youtu.be/m4ePCa6vE70)
+you can find a very well made youtube tutorial on how to set this up [here](https://youtu.be/AjSIEu8wFFk)
 
 ### features
 * uses a 3x3 advanced computer touchscreen monitor to interact with your reactor
@@ -23,7 +23,7 @@ you can find a very well made youtube tutorial on how to set this up [here](http
   * reactor will activate upon a successful charge
 * immediate shutdown when your temperature goes above 8000C
   * adjustable
-  * reactor will activate upon temperature cooling down to 3000C [CURRENTLY BUGGED, requires manual reactivation]
+  * reactor will activate upon temperature cooling down to 3000C
     * adjustable
 
 * easily tweak your output flux gate via touchscreen buttons
@@ -53,7 +53,7 @@ you can find a very well made youtube tutorial on how to set this up [here](http
 * install this code via running the install script using these commands :
 
 ```
-> wget https~//raw.githubusercontent.com/Derd328/All-the-Mods-ATM-10-Draconic-Reactor-Computer-Craft-Code-2025-2026/master/install.lua install
+> pastebin get UyyGNXRN install
 > install
 ```
 * modify `startup` if you wish to configure/alter any variables mentioned in the feature list, you'll find them at the top of the file
